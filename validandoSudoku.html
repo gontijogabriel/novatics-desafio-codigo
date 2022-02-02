@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validando Sudoku</title>
+</head>
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        body {
+            margin: 0px;
+        }
+        h1{
+            font-size: 500px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-style: oblique;
+        }
+    </style>
+
+    <body>
+        
+        <div class="container">     
+            <h1 id="result"></h1> 
+        </div>
+        
+    </body>
+        
+    <script>
+
+        board = 
+            [["5","3",".",".","7",".",".",".","."]
+            ,["6",".",".","1","9","5",".",".","."]
+            ,[".","9","8",".",".",".",".","6","."]
+            ,["8",".",".",".","6",".",".",".","3"]
+            ,["4",".",".","8",".","3",".",".","1"]
+            ,["7",".",".",".",".",".","2",".","6"]
+            ,[".","6",".",".",".",".",".","8","."]
+            ,[".",".",".","4","1","9",".",".","5"]
+            ,[".",".",".",".","8",".",".","7","9"]];
+
+        var validandoSudoku = function(board) {
+            const linha = {};
+            const coluna = {};
+            const box = {};
+
+            for(let i=0; i<9; i++){
+                for(let j=0; j<9; j++){
+                    const valor = board[i][j];
+                    if(valor !== '.'){
+                        const boxId = Math.floor(i/3) * 3 + Math.floor(j/3);
+                        if(linha[`${i}-${valor}`] || coluna[`${j}-${valor}`] || box[`${boxId}-${valor}`]){
+                            return false;
+                        }
+
+                        linha[`${i}-${valor}`] = true;
+                        coluna[`${j}-${valor}`] = true;
+                        box[`${boxId}-${valor}`] = true;
+                    }
+                }
+            }
+            return true;
+        };
+        
+        if((validandoSudoku(board)) == true){
+            document.getElementById('result').style.color = 'rgba(0, 0, 255, 0.7)';
+        }
+        else if((validandoSudoku(board)) == false){
+            document.getElementById('result').style.color = 'rgba(255, 0, 0, 0.7)';
+        }
+
+        document.getElementById('result').innerHTML = (validandoSudoku(board));
+
+    </script>
+</html>
